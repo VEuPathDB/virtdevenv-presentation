@@ -208,21 +208,21 @@ what if what you are working on is the entire operating system. how do you delet
 Note:
 Workable but cumbersome when you need to start over several times an hour.
 
-Better to automate the process.
+__This is not a suitable development environment!__
 
 This is of course a very common problem.  About two years ago a software developer named Mitchell Hashimoto released a software tool called Vagrant that addresses this problem.
-
-
-
-![](content/vagrantmovie.jpg)
 
 
 
 <img style="border:none" src="content/vagrantlogo.png">
 
 
+
+![](content/vagrantmovie.jpg)
+
 Note:
 Vagrant will be the focal point of the rest of this talk.
+
 
 
 ### My Development Environment
@@ -231,43 +231,71 @@ Vagrant will be the focal point of the rest of this talk.
 
 ### Tools
 
-I need software to host virtual machines.
-
-Could be VMWare but I'm using VirtualBox.
-
-
-
-### Tools
-
-We need a disk image that represents the virtual machine.
-
-I'll come back to this.
+- I need software to host virtual machines.
+    
+    Could be VMWare but I'm using VirtualBox.
 
 
 
 ### Tools
 
-We need software to manage the lifecycle of the virtual machine.
+- I need a disk image that represents the virtual machine.
+
+  _I'll come back to this._
+
+
+
+### Tools
+
+- I need software to manage the lifecycle of the virtual machine.
 
   - start/stop VM
-  - network interfaces
-  - memory
-  - CPU count
+  - reset VM to baseline
+  - manage VM characteristic
+    - shared folders between host and guest
+    - network, memory, CPU
+  - manage provisioning
+
+__This is Vagrant's role.__
 
 
 
-In order to manage a given virtual machine Vagrant has some expectations. For example, in order for it to shut down a VM it has to log in and run the relevant command. So it needs a known user account and that user account needs permissions to shut down the server. 
+### Vagrant
+
+- In order to manage a given virtual machine Vagrant has some expectations. For example, in order for it to shut down a VM it has to log in and run the relevant command. So it needs a known user account and that user account needs permissions to shut down the server. 
+
+- There are other requirements. Not important now.
 
 
 
-There are other requirements. Not important now.
+### Tools
 
+- I need a disk image that represents the virtual machine.
+  - It must be Vagrant compatible
 
-
+Note:
 So, going back to what I said earlier - we need a virtual machine - but not any virtual machine - one that is compatible with Vagrant. Where do we get that? Well, we can make one from scratch, the requirements are documented. But it would be less work to use one someone else has already made. **I'm talking about obtaining a base VM that just has a minimal Linux installed. This VM does not need any of EuPathDB's tools and configurations. That stuff will be installed through Puppet.**. 
 
-https://atlas.hashicorp.com/boxes/search
 
+
+
+<a href="https://atlas.hashicorp.com/boxes/search" target="_blank">https://atlas.hashicorp.com/boxes/search</a>
+
+
+
+### Tools Summary
+
+  - <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">VirtualBox</a>
+  - <a href="http://www.vagrantup.com/downloads.html" target="_blank">Vagrant</a>
+  - <a href="https://atlas.hashicorp.com/boxes/search" target="_blank">Vagrant Box</a>
+
+
+
+## Vagrant Demo
+
+
+
+## Puppet Development Demo
 
 
 
