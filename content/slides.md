@@ -214,7 +214,7 @@ This is of course a very common problem.  About two years ago a software develop
 
 
 
-![](/content/vagrantmovie.jpg)
+![](content/vagrantmovie.jpg)
 
 
 
