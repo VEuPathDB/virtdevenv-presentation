@@ -161,38 +161,71 @@ With Puppet (and a few other tools):
 
 
 
-## EuPathDB's Puppet Code
+###  EuPathDB's Puppet Code
 
 - Our implementation dates back to 2007, when
-  - Puppet was very immature, Puppet version 0.23
+  - Puppet was still immature
   - few best practices
   - we were novices
-- Duct tape and string patching over the years
-- Difficult to use on new classes of servers
+- Increasingly incompatible with each new Puppet version
+- Not modular enough to use on new classes of servers
 - **Time for a full rewrite**
 
-Note:
 
 
+#### Development Cycle
 
-#### Need development environment
-
-  - Too risky and complex to use an active server
-  - To adequately test and debug, we need to wipe and redo.
-  - Use a virtual machine
+1. freshly installed OS on bare metal
+2. write Puppet manifests
+3. apply manifests
+4. run functional tests on server
+5. go to 1
 
 Note:
 what if working on a single application such as  wdk and want to start over? delete gus_home and build from source.
 
 what if what you are working on is the entire operating system. how do you delete and start over? Need sources and a way to build it.
 
-VirtualMachine snapshots.
 
+#### Need development environment
+
+
+
+#### Need development environment
+
+  - Use a virtual machine
+
+
+
+#### Traditional virtual machines
+
+  - create VM
+  - install OS
+  - Snapshot (point in time recovery)
+  - do work
+  - revert to snapshot
+
+Note:
 Workable but cumbersome when you need to start over several times an hour.
 
-This is of course a very common problem.  About two years ago a developer named Mitchell Hashimoto released a software tool called Vagrant that addresses this problem.
+Better to automate the process.
 
+This is of course a very common problem.  About two years ago a software developer named Mitchell Hashimoto released a software tool called Vagrant that addresses this problem.
+
+
+
+![](/content/vagrantmovie.jpg)
+
+
+
+<img style="border:none" src="content/vagrantlogo.png">
+
+
+Note:
 Vagrant will be the focal point of the rest of this talk.
+
+
+### My Development Environment
 
 
 
