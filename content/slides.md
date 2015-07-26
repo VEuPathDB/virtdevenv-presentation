@@ -163,13 +163,19 @@ With Puppet (and a few other tools):
 
 ###  EuPathDB's Puppet Code
 
-- Our implementation dates back to 2007, when
+- Our manifests date back to 2007, when
   - Puppet was still immature
   - few best practices
   - we were novices
 - Increasingly incompatible with each new Puppet version
 - Not modular enough to use on new classes of servers
 - **Time for a full rewrite**
+
+
+
+### Development Project
+
+  - Complete rewrite of our Puppet implementation
 
 
 
@@ -185,6 +191,7 @@ Note:
 what if working on a single application such as  wdk and want to start over? delete gus_home and build from source.
 
 what if what you are working on is the entire operating system. how do you delete and start over? Need sources and a way to build it.
+
 
 
 #### Need development environment
@@ -220,6 +227,10 @@ This is of course a very common problem.  About two years ago a software develop
 
 ![](content/vagrantmovie.jpg)
 
+
+
+<img style="border:none" src="content/vagrantlogo.png">
+
 Note:
 Vagrant will be the focal point of the rest of this talk.
 
@@ -251,12 +262,20 @@ Vagrant will be the focal point of the rest of this talk.
 
   - start/stop VM
   - reset VM to baseline
-  - manage VM characteristic
+  - manage VM characteristics
     - shared folders between host and guest
     - network, memory, CPU
   - manage provisioning
 
 __This is Vagrant's role.__
+
+
+
+### Tools
+
+_We're back._
+
+- I need a disk image that represents the virtual machine.
 
 
 
@@ -287,37 +306,101 @@ So, going back to what I said earlier - we need a virtual machine - but not any 
 
   - <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">VirtualBox</a>
   - <a href="http://www.vagrantup.com/downloads.html" target="_blank">Vagrant</a>
-  - <a href="https://atlas.hashicorp.com/boxes/search" target="_blank">Vagrant Box</a>
+  - <a href="https://atlas.hashicorp.com/boxes/search" target="_blank">Vagrant compatible VM Image</a> ("box")
 
 
 
 ## Vagrant Demo
 
+  - mkdir sig-demo
+  - https://atlas.hashicorp.com/boxes/search
+  - vagrant init puppetlabs/centos-6.6-64-puppet
+
+Note:
+make a working directory. Find a suitable box at hashicorp.
+vagrant init
+show Vagrantfile
+
+
+
+## Vagrant Demo
+
+ - vagrant up
+ - vagrant ssh
+ - /vagrant shared directory
+ - vagrant halt
+ - vagrant destroy
+
 
 
 ## Puppet Development Demo
+
+  - ~/Vagrant/vagrant-eupathdb-webserver/
+  - vagrant up
+  - vagrant provision
+
+Note:
+  remember to start sshuttle
+  Vagrantfile provisions via Puppet
+  Puppet manifests are on my laptop and shared with VM
+  Tomcat is already installed, /usr/local/tomcat
+  emacs is not (Matt and I have not gotten that far with the Puppet rewrite)
+  Let's install it
+  wdk_templatedb_demo.pp <- include ::ebrc_packages::emacs
+  vagrant provision
+
+
+
+### Test Provisioned Server
+
+  1. Checkout WDK source code
+  2. Build Template site
+  3. Destroy VM
+  4. Continue Puppet development with new VM instance
+  5. Go To 1
 
 
 
 #### One Man's Trash Is Another Man's Treasure
 ![Trash](content/trash.jpg)
 
+Note:
+In my development cycle I'm throwing away the provisioned VM after I've
+evaluated its suitability for installing a website.
 
+
+
+### Gift wrapping my trash
+
+  - vagrant package --base sa.apidb.org --output ~/Vagrant/wdk-base.box
+  - upload the box to http://software.apidb.org/vagrant/
+  - interested parties can create a Vagrantfile and use that box
+
+
+
+### Example
 
 https://github.com/mheiges/vagrant-wdk-templatedb
 
-
-
-be sure sshuttle is running
-
-vagrant up
-
-127.0.0.1:9380/strategies/
-
+  - mkdir wdk-demo
+  - git clone https://github.com/mheiges/vagrant-wdk-templatedb
+  - vagrant up
+  - http://127.0.0.1:9380/strategies/
 
 Note:
-Not completely free.
+be sure sshuttle is running
 
+
+
+### Closing comments
+
+  - Still at very early stage of Puppet rewrite
+    - can at least deploy TemplateDB
+  - Never completely free
+    - Individuals will want to customize the box for specific needs.
+      - custom Vagrantfile
+
+Note:
 Ryan will want to tweak it. Add debugger tools. Reconfigure shared folders. Install PlasmoDB instead of TemplateDB.
 
 Be he can encode those changes in Vagrant manifests and add commit that to Subversion. 
@@ -326,9 +409,6 @@ Steve, Dave and Cristina can svn update and `vagrant provision` to get the chang
 
 
 Ryan does not need to teach several people how to make the change. He only teaches Vagrant.
-
-
-"Infrastructure as Code"
 
 
 
