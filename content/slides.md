@@ -1,8 +1,10 @@
 **Virtualizing Development Environments**
 
-July 2015
+July 27, 2015
 
 ---
+
+<span style='font-size:1pt'>mash the 's' key for presenter notes</span>
 
 
 
@@ -15,10 +17,6 @@ July 2015
     - how I'm using it
   - Relevance to others
     - what build artifacts may be useful to others
-
-
-
-## No Docker
 
 
 
@@ -43,7 +41,7 @@ We take server out of the box, put it in a rack
 ![quantum](content/quantum.jpg)
 
 Note:
-We use the box for quantum experiment
+We use the box for quantum experiments
 
 
 
@@ -179,7 +177,7 @@ With Puppet (and a few other tools):
 
 
 
-#### Development Cycle
+### Development Cycle
 
 1. freshly installed OS on bare metal
 2. write Puppet manifests
@@ -194,11 +192,11 @@ what if what you are working on is the entire operating system. how do you delet
 
 
 
-#### Need development environment
+### Need a development environment
 
 
 
-#### Need development environment
+### Need development environment
 
   - Use a virtual machine
 
@@ -231,35 +229,16 @@ This is of course a very common problem.  About two years ago a software develop
 
 <img style="border:none" src="content/vagrantlogo.png">
 
+<a href='https://www.vagrantup.com' target='_blank'>https://www.vagrantup.com</a>
+
 Note:
 Vagrant will be the focal point of the rest of this talk.
 
 
 
-### My Development Environment
+### Vagrant
 
-
-
-### Tools
-
-- I need software to host virtual machines.
-    
-    Could be VMWare but I'm using VirtualBox.
-
-
-
-### Tools
-
-- I need a disk image that represents the virtual machine.
-
-  _I'll come back to this._
-
-
-
-### Tools
-
-- I need software to manage the lifecycle of the virtual machine.
-
+  - acquire VM image (box)
   - start/stop VM
   - reset VM to baseline
   - manage VM characteristics
@@ -267,42 +246,25 @@ Vagrant will be the focal point of the rest of this talk.
     - network, memory, CPU
   - manage provisioning
 
-__This is Vagrant's role.__
-
-
-
-### Tools
-
-_We're back._
-
-- I need a disk image that represents the virtual machine.
-
 
 
 ### Vagrant
 
+- Requires Vagrant-compatible VM image
+  - Make one yourself
+  - Use someone else's
+    - <a href="https://atlas.hashicorp.com/boxes/search" target="_blank">https://atlas.hashicorp.com/boxes/search</a>
+
+Note:
 - In order to manage a given virtual machine Vagrant has some expectations. For example, in order for it to shut down a VM it has to log in and run the relevant command. So it needs a known user account and that user account needs permissions to shut down the server. 
 
 - There are other requirements. Not important now.
 
-
-
-### Tools
-
-- I need a disk image that represents the virtual machine.
-  - It must be Vagrant compatible
-
-Note:
 So, going back to what I said earlier - we need a virtual machine - but not any virtual machine - one that is compatible with Vagrant. Where do we get that? Well, we can make one from scratch, the requirements are documented. But it would be less work to use one someone else has already made. **I'm talking about obtaining a base VM that just has a minimal Linux installed. This VM does not need any of EuPathDB's tools and configurations. That stuff will be installed through Puppet.**. 
 
 
 
-
-<a href="https://atlas.hashicorp.com/boxes/search" target="_blank">https://atlas.hashicorp.com/boxes/search</a>
-
-
-
-### Tools Summary
+### My Development Environment
 
   - <a href="https://www.virtualbox.org/wiki/Downloads" target="_blank">VirtualBox</a>
   - <a href="http://www.vagrantup.com/downloads.html" target="_blank">Vagrant</a>
@@ -335,6 +297,8 @@ show Vagrantfile
 
 ## Puppet Development Demo
 
+  - VPN
+    - <a href='https://wiki.apidb.org/index.php/sshuttle' target='_blank'>sshuttle</a>
   - ~/Vagrant/vagrant-eupathdb-webserver/
   - vagrant up
   - vagrant provision
@@ -354,7 +318,7 @@ Note:
 ### Test Provisioned Server
 
   1. Checkout WDK source code
-  2. Build Template site
+  2. Build TemplateDB web site
   3. Destroy VM
   4. Continue Puppet development with new VM instance
   5. Go To 1
@@ -370,7 +334,7 @@ evaluated its suitability for installing a website.
 
 
 
-### Gift wrapping my trash
+### Yard Sale!
 
   - vagrant package --base sa.apidb.org --output ~/Vagrant/wdk-base.box
   - upload the box to http://software.apidb.org/vagrant/
@@ -380,37 +344,35 @@ evaluated its suitability for installing a website.
 
 ### Example
 
-https://github.com/mheiges/vagrant-wdk-templatedb
+<a href='https://github.com/mheiges/vagrant-wdk-templatedb' targe='_blank'>https://github.com/mheiges/vagrant-wdk-templatedb</a>
 
-  - mkdir wdk-demo
   - git clone https://github.com/mheiges/vagrant-wdk-templatedb
   - vagrant up
-  - http://127.0.0.1:9380/strategies/
+  - <a href='http://127.0.0.1:9380/strategies/' target='_blank'>http://127.0.0.1:9380/strategies/</a>
 
 Note:
 be sure sshuttle is running
+cp private.yml from existing project
+vagrant up, then review playbook.yml while provisioning
 
 
 
 ### Closing comments
 
+  - If there is interest, I can continue to provide boxes
+    - not officially supported but welcome feedback
   - Still at very early stage of Puppet rewrite
     - can at least deploy TemplateDB
   - Never completely free
     - Individuals will want to customize the box for specific needs.
-      - custom Vagrantfile
+      - start new Vagrant project
+      - customize provisioning
 
 Note:
-Ryan will want to tweak it. Add debugger tools. Reconfigure shared folders. Install PlasmoDB instead of TemplateDB.
+e.g. Ryan will want to tweak it. e.g. Add debugger tools. Reconfigure shared folders. Install PlasmoDB instead of TemplateDB.
 
-Be he can encode those changes in Vagrant manifests and add commit that to Subversion. 
+Encode those changes in Vagrant manifests and add commit that to Subversion. 
 
 Steve, Dave and Cristina can svn update and `vagrant provision` to get the changes.
 
-
 Ryan does not need to teach several people how to make the change. He only teaches Vagrant.
-
-
-
-
-
