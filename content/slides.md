@@ -131,9 +131,7 @@ This class installs emacs.
 Classes can be a few lines like this, or can be hundreds of lines.
 The class is included in a node manifest.
 
-
-
-#### cf. Reflow
+cf. Reflow
 
 - _load genomic data into databases, flatfiles_ 
 
@@ -147,7 +145,6 @@ vs
 
 - Puppet manifests define EuPathDB specific implementations.
 
-Note:
 Puppet is somewhat analogous to Reflow. Instead of being a framework for preparing a database and flat files it prepares computer systems. We write Puppet manifests that describe the desired end state of the server (i.e. Puppet uses a declarative syntax) and some of the code required to achieve that state. Puppet + our manifests/code is analogous to the EuPathDB workflow. Although modular parts could be of general interest, the working implementation is specific for EuPathDB.
 
 
